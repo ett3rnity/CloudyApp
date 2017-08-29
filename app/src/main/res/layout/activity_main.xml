@@ -1,0 +1,167 @@
+  <com.sothree.slidinguppanel.SlidingUpPanelLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    android:gravity="bottom"
+    sothree:umanoOverlay="true"
+    sothree:umanoPanelHeight="200dp"
+    sothree:umanoParallaxOffset="40dp">
+
+  <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="alexanderivanets.cloudyapp.MainActivity"
+    android:id="@+id/main_background">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/iv_main_pic"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_main_cityName"
+        android:text="Kiev"
+        android:textSize="24sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/tv_main_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_main_cityName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:text="Sun,9 Jul, 15.56"
+        android:textAlignment="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_main_sunrise"
+        android:text="05:24"
+        android:textSize="23sp"
+        android:layout_marginTop="147dp"
+        android:layout_below="@+id/tv_main_date"
+        android:layout_toLeftOf="@+id/tv_main_tempNowNumb"
+        android:layout_toStartOf="@+id/tv_main_tempNowNumb"
+        android:layout_marginRight="32dp"
+        android:layout_marginEnd="32dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sunrise"
+        android:layout_below="@id/tv_main_sunrise"
+        android:layout_toLeftOf="@+id/tv_main_tempNowNumb"
+        android:layout_toStartOf="@+id/tv_main_tempNowNumb"
+        android:layout_marginRight="32dp"
+        android:layout_marginEnd="32dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_main_sunset"
+        android:text="23:19"
+        android:textSize="20dp"
+        android:layout_alignBottom="@+id/tv_main_sunrise"
+        android:layout_toRightOf="@+id/tv_main_tempNowNumb"
+        android:layout_toEndOf="@+id/tv_main_tempNowNumb"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sunset"
+        android:id="@+id/textView"
+        android:layout_below="@id/tv_main_sunset"
+        android:layout_toRightOf="@+id/tv_main_tempNowNumb"
+        android:layout_toEndOf="@+id/tv_main_tempNowNumb"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/tv_main_tempNowNumb"
+        android:text="+111"
+        android:textSize="40sp"
+        android:layout_marginTop="102dp"
+        android:layout_below="@+id/tv_main_date"
+        android:layout_alignLeft="@+id/tv_main_date"
+        android:layout_alignStart="@+id/tv_main_date" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_main_weatherNowDescr"
+        android:text="Cloudy"
+        android:textAlignment="center"
+        android:layout_below="@+id/tv_main_tempNowNumb"
+        android:layout_alignLeft="@+id/tv_main_cityName"
+        android:layout_alignStart="@+id/tv_main_cityName"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_main_windNow"
+        android:text="Wind 4 m/s from N"
+        android:textAlignment="center"
+        android:layout_marginTop="29dp"
+        android:layout_below="@+id/tv_main_weatherNowDescr"
+        android:layout_alignRight="@+id/tv_main_date"
+        android:layout_alignEnd="@+id/tv_main_date" />
+
+
+
+
+
+  </RelativeLayout>
+
+    
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:paddingRight="40dp"
+        android:paddingLeft="40dp"
+        android:layout_height="300dp"
+        android:id="@+id/card_view_main"
+        app:cardCornerRadius="8dp"
+        app:cardPreventCornerOverlap="true"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+      <android.support.v4.view.ViewPager
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/vp_main">
+
+          <android.support.design.widget.TabLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/tl_main">
+          </android.support.design.widget.TabLayout>
+
+      </android.support.v4.view.ViewPager>
+
+    </android.support.v7.widget.CardView>
+
+
+
+
+
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
