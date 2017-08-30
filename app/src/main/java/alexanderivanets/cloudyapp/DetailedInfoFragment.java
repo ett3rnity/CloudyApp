@@ -21,28 +21,25 @@ import alexanderivanets.cloudyapp.model.ItemDetailedWeather;
 import alexanderivanets.cloudyapp.model.fivedayresponse.FiveDayResponse;
 import alexanderivanets.cloudyapp.model.fivedayresponse.ListWeather;
 import alexanderivanets.cloudyapp.model.thisdayresponse.ThisDayResponse;
+import butterknife.BindArray;
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.ButterKnife;
 
 
 public class DetailedInfoFragment extends Fragment implements DetailedInfoFragmentV {
 
-    @BindView(R.id.fragment_date_rv)
-    RecyclerView fragment_date_rv;
-    @BindView(R.id.fragment_weather_rv)
-    RecyclerView fragment_weather_rv;
-    @BindView(R.id.fragment_temp_rv)
-    RecyclerView fragment_temp_rv;
-    @BindView(R.id.fragment_pressure_rv)
-    RecyclerView fragment_pressure_rv;
-    @BindView(R.id.fragment_humidity_rv)
-    RecyclerView fragment_humidity_rv;
-    @BindView(R.id.fragment_wind_descr_rv)
-    RecyclerView fragment_wind_descr_rv;
-    @BindView(R.id.fragment_wind_speed_rv)
-    RecyclerView fragment_wind_speed_rv;
 
+    @BindViews({R.id.fragment_date_rv,
+            R.id.fragment_weather_rv,
+            R.id.fragment_temp_rv,
+            R.id.fragment_pressure_rv,
+            R.id.fragment_humidity_rv,
+            R.id.fragment_wind_speed_rv})
+    List<RecyclerView> recyclerViews;
 
+    List<DetailedAdapter> adapters;
+    ArrayList<ArrayList<ItemDetailedWeather>> infoList;
 
     private DetailedInfoFragmentP presenter;
 
@@ -73,8 +70,6 @@ public class DetailedInfoFragment extends Fragment implements DetailedInfoFragme
 
 
         ButterKnife.bind(this,v);
-
-
         return v;
     }
 
@@ -100,59 +95,14 @@ public class DetailedInfoFragment extends Fragment implements DetailedInfoFragme
     @Override
     public void enterInfoIntoViews(FiveDayResponse response) {
 
-        ArrayList<ItemDetailedWeather> temp = new ArrayList<>();
-        ArrayList<ItemDetailedWeather> date = new ArrayList<>();
-        ArrayList<ItemDetailedWeather> weather = new ArrayList<>();
-        ArrayList<ItemDetailedWeather> pressure = new ArrayList<>();
-        ArrayList<ItemDetailedWeather> humidity = new ArrayList<>();
-        //ArrayList<ItemDetailedWeather> wind_descr = new ArrayList<>();
-        ArrayList<ItemDetailedWeather> wind_speed = new ArrayList<>();
+        adapters = new ArrayList<>();
+        infoList = new ArrayList<>();
 
-        for (ListWeather list:
-             response.getList()) {
-            temp.add(new ItemDetailedWeather(list.getMain().getTemp().toString()));
-            date.add(new ItemDetailedWeather(list.getDtTxt()));
-            weather.add(new ItemDetailedWeather(list.getWeather().get(0).getDescription()));
-            pressure.add(new ItemDetailedWeather(list.getMain().getPressure().toString()));
-            humidity.add(new ItemDetailedWeather(list.getMain().getHumidity().toString()));
-            wind_speed.add(new ItemDetailedWeather(list.getWind().getSpeed().toString()));
-        }
+        parseData(infoList, response);
 
-
-        DetailedAdapter dateAdapter = new DetailedAdapter(date);
-        DetailedAdapter tempAdapter = new DetailedAdapter(temp);
-        DetailedAdapter weatherAdapter = new DetailedAdapter(weather);
-        DetailedAdapter windSpeedAdapter = new DetailedAdapter(wind_speed);
-        DetailedAdapter pressureAdapter = new DetailedAdapter(pressure);
-        DetailedAdapter humidityAdapter = new DetailedAdapter(humidity);
-
-        fragment_humidity_rv.setLayoutManager(new LinearLayoutManager(
-                getContext(),LinearLayoutManager.HORIZONTAL, false ));
-        fragment_pressure_rv.setLayoutManager(new LinearLayoutManager(
-                getContext(),LinearLayoutManager.HORIZONTAL, false));
-        fragment_wind_speed_rv.setLayoutManager(new LinearLayoutManager(
-                getContext(),LinearLayoutManager.HORIZONTAL, false));
-        fragment_temp_rv.setLayoutManager(new LinearLayoutManager(
-                getContext(),LinearLayoutManager.HORIZONTAL, false));
-        fragment_weather_rv.setLayoutManager(new LinearLayoutManager(
-                getContext(),LinearLayoutManager.HORIZONTAL, false));
-        fragment_date_rv.setLayoutManager(new LinearLayoutManager(
-                getContext(),LinearLayoutManager.HORIZONTAL, false));
-
-
-        fragment_date_rv.setAdapter(dateAdapter);
-        fragment_temp_rv.setAdapter(tempAdapter);
-        fragment_weather_rv.setAdapter(weatherAdapter);
-        fragment_wind_speed_rv.setAdapter(windSpeedAdapter);
-        fragment_pressure_rv.setAdapter(pressureAdapter);
-        fragment_humidity_rv.setAdapter(humidityAdapter);
-
-        dateAdapter.notifyDataSetChanged();
-        tempAdapter.notifyDataSetChanged();
-        weatherAdapter.notifyDataSetChanged();
-        windSpeedAdapter.notifyDataSetChanged();
-        pressureAdapter.notifyDataSetChanged();
-        humidityAdapter.notifyDataSetChanged();
+        setCommonLayoutManager(recyclerViews);
+        setCommonScrollListener(recyclerViews);
+        setAdapters(infoList, recyclerViews);
 
 
 
@@ -168,5 +118,83 @@ public class DetailedInfoFragment extends Fragment implements DetailedInfoFragme
         return getView().getContext();
     }
 
+    private void setCommonScrollListener(List<RecyclerView> rvs){
+
+        RecyclerView.OnScrollListener listener = new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                for (RecyclerView rv:
+                        rvs) {
+                    if(rv != recyclerView){
+                        rv.removeOnScrollListener(this);
+                        rv.scrollBy(dx, dy);
+                        rv.addOnScrollListener(this);
+                    }
+                }
+            }
+        };
+
+        for (RecyclerView rv:
+             rvs) {
+            rv.addOnScrollListener(listener);
+        }
+
+
+    }
+
+    private void setCommonLayoutManager(List<RecyclerView> rvs){
+        for (RecyclerView rv:
+             rvs) {
+            rv.setLayoutManager(new LinearLayoutManager(
+                    getContext(),LinearLayoutManager.HORIZONTAL, false));
+        }
+    }
+
+    private void parseData(ArrayList<ArrayList<ItemDetailedWeather>> itemsList, FiveDayResponse response){
+
+        ArrayList<ItemDetailedWeather> temp = new ArrayList<>();
+        ArrayList<ItemDetailedWeather> date = new ArrayList<>();
+        ArrayList<ItemDetailedWeather> weather = new ArrayList<>();
+        ArrayList<ItemDetailedWeather> pressure = new ArrayList<>();
+        ArrayList<ItemDetailedWeather> humidity = new ArrayList<>();
+        ArrayList<ItemDetailedWeather> wind_speed = new ArrayList<>();
+
+        for (ListWeather list:
+                response.getList()) {
+
+            temp.add(new ItemDetailedWeather(list.getMain().getTemp().toString()));
+            date.add(new ItemDetailedWeather(list.getDtTxt()));
+            weather.add(new ItemDetailedWeather(list.getWeather().get(0).getDescription()));
+            pressure.add(new ItemDetailedWeather(list.getMain().getPressure().toString()));
+            humidity.add(new ItemDetailedWeather(list.getMain().getHumidity().toString()));
+            wind_speed.add(new ItemDetailedWeather(list.getWind().getSpeed().toString()));
+        }
+
+
+        itemsList.add(date);
+        itemsList.add(weather);
+        itemsList.add(temp);
+        itemsList.add(pressure);
+        itemsList.add(humidity);
+        itemsList.add(wind_speed);
+    }
+
+    private void setAdapters(ArrayList<ArrayList<ItemDetailedWeather>> itemsList,
+                             List<RecyclerView> rvs){
+        int index = 0;
+        for (RecyclerView rv:
+             rvs) {
+            DetailedAdapter adapter = new DetailedAdapter(itemsList.get(index));
+            rv.setAdapter(adapter);
+            index ++;
+        }
+    }
 
 }

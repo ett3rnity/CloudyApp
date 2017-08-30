@@ -151,11 +151,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
                     //noinspection MissingPermission
                     presenter.onGetInfo(true);
                 }
-                else{
-                        //do a city name request
-                        presenter.onGetInfo(false);
-                    }
-
                     break;
 
                 }

@@ -62,17 +62,6 @@
         android:id="@+id/fragment_wind_speed_rv">
     </android.support.v7.widget.RecyclerView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/fragment_wind_descr"
-        android:text="wind description"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/fragment_wind_descr_rv">
-    </android.support.v7.widget.RecyclerView>
 
     <TextView
         android:layout_width="wrap_content"

@@ -26,8 +26,8 @@ public interface WeatherAPI {
                                                    @Query("appid") String mApiKey);
 
     @GET("/data/2.5/weather")
-    Observable<ThisDayResponse> getThisDayResponseCoord(@Query("lat") String mLat,
-                                                        @Query("lon") String mLon,
+    Observable<ThisDayResponse> getThisDayResponseCoord(@Query("lat") double mLat,
+                                                        @Query("lon") double mLon,
                                                         @Query("units")String mUnits,
                                                         @Query("lang") String mLang,
                                                         @Query("appid") String mApiKey);

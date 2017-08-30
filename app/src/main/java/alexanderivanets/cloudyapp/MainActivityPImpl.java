@@ -56,7 +56,10 @@ public class MainActivityPImpl implements MainActivityP {
     private DisposableObserver<ThisDayResponse> observer;
     private WeatherAPI api;
 
+    private boolean searchByGps;
     private LocationUtils locationUtils;
+
+
 
 
     public MainActivityPImpl(MainActivityV view) {
@@ -66,12 +69,20 @@ public class MainActivityPImpl implements MainActivityP {
 
     @Override
     public void onGetInfo(boolean searchByGps) {
+        this.searchByGps = searchByGps;
+        view.onOutputError("ON GET INFO GPS");
+        // FIXME: 30.08.17 TEST VALUES
+        units = "metric";
+        lang = "rus";
+
+
         mainInfo(searchByGps);
 
     }
 
     @Override
     public void onGetInfo(boolean searchByGps, Place place, String units, String lang) {
+        this.searchByGps =searchByGps;
         this.place = place;
         this.units = units;
         this.lang = lang;
@@ -88,12 +99,17 @@ public class MainActivityPImpl implements MainActivityP {
 
             @Override
             public void onNext(@NonNull ThisDayResponse thisDayResponse) {
+                if (!searchByGps){
+                    if (place != null){
+                        thisDayResponse.setName(place.getName().toString());
+                    }
+                }
                 view.onInputThisDayInfo(thisDayResponse);
             }
 
             @Override
             public void onError(@NonNull Throwable e) {
-
+                view.onOutputError(e.getLocalizedMessage());
             }
 
 
@@ -124,8 +140,8 @@ public class MainActivityPImpl implements MainActivityP {
                         @Override
                         public void onSuccess(Location location) {
                             observable = api.getThisDayResponseCoord(
-                                    String.valueOf(location.getLatitude()),
-                                    String.valueOf(location.getLongitude()),
+                                    location.getLatitude(),
+                                    location.getLongitude(),
                                     units,
                                     lang,
                                     Config.WEATHER_API_KEY
@@ -138,9 +154,8 @@ public class MainActivityPImpl implements MainActivityP {
     }
 
     private void runObservable(Place place){
-        String mLat = String.valueOf(place.getLatLng().latitude);
-        String mLon = String.valueOf(place.getLatLng().longitude);
-        observable = api.getThisDayResponseCoord(mLat, mLon, units, lang, Config.WEATHER_API_KEY);
+        observable = api.getThisDayResponseCoord(place.getLatLng().latitude
+                , place.getLatLng().longitude, units, lang, Config.WEATHER_API_KEY);
 
         subscribeObservable(observable,observer);
     }
@@ -148,7 +163,6 @@ public class MainActivityPImpl implements MainActivityP {
 
     private void subscribeObservable(Observable<ThisDayResponse> observable, Observer<ThisDayResponse> observer){
         observable
-                .retryWhen(throwableObservable -> throwableObservable.delay(5,TimeUnit.SECONDS))
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
