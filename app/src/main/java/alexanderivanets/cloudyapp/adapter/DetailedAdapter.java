@@ -1,4 +1,4 @@
-package alexanderivanets.cloudyapp;
+package alexanderivanets.cloudyapp.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import alexanderivanets.cloudyapp.R;
 import alexanderivanets.cloudyapp.model.ItemDetailedWeather;
 
 

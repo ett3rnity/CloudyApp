@@ -1,10 +1,10 @@
-package alexanderivanets.cloudyapp;
+package alexanderivanets.cloudyapp.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.view.View;
+
+import alexanderivanets.cloudyapp.view.DetailedInfoFragment;
 
 /**
  * Created by root on 20.08.17.
@@ -19,7 +19,7 @@ public class InfoPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return DetailedInfoFragment.newInstance();
+        return DetailedInfoFragment.newInstance(position+1);
     }
 
 

@@ -1,9 +1,10 @@
-package alexanderivanets.cloudyapp;
+package alexanderivanets.cloudyapp.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import alexanderivanets.cloudyapp.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

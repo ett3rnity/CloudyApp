@@ -1,4 +1,4 @@
-package alexanderivanets.cloudyapp;
+package alexanderivanets.cloudyapp.utils;
 
 import android.Manifest;
 import android.content.Context;

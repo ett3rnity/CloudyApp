@@ -1,45 +1,25 @@
-package alexanderivanets.cloudyapp;
+package alexanderivanets.cloudyapp.presenter;
 
 
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.util.Log;
 
-import com.google.android.gms.location.LocationStatusCodes;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
-import java.util.concurrent.TimeUnit;
-
+import alexanderivanets.cloudyapp.model.Config;
+import alexanderivanets.cloudyapp.utils.LocationUtils;
+import alexanderivanets.cloudyapp.view.MainActivityV;
 import alexanderivanets.cloudyapp.api.RetrofitSingleton;
 import alexanderivanets.cloudyapp.api.WeatherAPI;
 
 
 import alexanderivanets.cloudyapp.model.thisdayresponse.ThisDayResponse;
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
+
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by root on 10.07.17.
@@ -98,7 +78,7 @@ public class MainActivityPImpl implements MainActivityP {
 
 
             @Override
-            public void onNext(@NonNull ThisDayResponse thisDayResponse) {
+            public void onNext(ThisDayResponse thisDayResponse) {
                 if (!searchByGps){
                     if (place != null){
                         thisDayResponse.setName(place.getName().toString());
@@ -108,7 +88,7 @@ public class MainActivityPImpl implements MainActivityP {
             }
 
             @Override
-            public void onError(@NonNull Throwable e) {
+            public void onError( Throwable e) {
                 view.onOutputError(e.getLocalizedMessage());
             }
 

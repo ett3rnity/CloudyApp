@@ -1,20 +1,22 @@
-  <com.sothree.slidinguppanel.SlidingUpPanelLayout
+<com.sothree.slidinguppanel.SlidingUpPanelLayout
 
-      xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:tools="http://schemas.android.com/tools"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:id="@+id/slidingUpPanelLayout"
-      xmlns:sothree="http://schemas.android.com/apk/res-auto"
-      android:gravity="bottom"
-      sothree:umanoPanelHeight="200dp"
-      sothree:umanoOverlay="true"
-      sothree:umanoFadeColor="@android:color/transparent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/slidingUpPanelLayout"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    android:gravity="bottom"
+    sothree:umanoPanelHeight="200dp"
+    sothree:umanoOverlay="true"
+    sothree:umanoClipPanel="true"
+    sothree:umanoShadowHeight="0dp"
+    sothree:umanoFadeColor="@android:color/transparent">
 
   <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="alexanderivanets.cloudyapp.MainActivity"
+    tools:context="alexanderivanets.cloudyapp.view.MainActivity"
     android:id="@+id/main_background">
 
     <ImageView
@@ -23,95 +25,138 @@
         android:id="@+id/iv_main_pic"/>
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_main_cityName"
-        android:text="Kiev"
-        android:textSize="24sp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
 
-    <TextView
-        android:id="@+id/tv_main_date"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_main_cityName"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
-        android:text="Sun,9 Jul, 15.56"
-        android:textAlignment="center" />
+        android:id="@+id/rl_top_main">
 
-    <TextView
-        android:layout_width="wrap_content"
+
+      <ImageView
+          android:layout_width="28dp"
+          android:layout_height="28dp"
+          android:src="@drawable/ic_back"
+          android:layout_marginEnd="8dp"
+          android:layout_marginLeft="8dp"
+          android:layout_marginRight="8dp"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="8dp"
+          android:id="@+id/btn_main_locations"
+          android:layout_centerVertical="true"/>
+
+
+      <TextView
+          android:id="@+id/tv_main_cityName"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerHorizontal="true"
+          android:layout_marginEnd="8dp"
+          android:layout_marginLeft="8dp"
+          android:layout_marginRight="8dp"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="8dp"
+          android:text="Kiev"
+          android:textSize="24sp" />
+
+    </RelativeLayout>
+
+
+      <TextView
+          android:id="@+id/tv_main_date"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerHorizontal="true"
+          android:layout_marginTop="14dp"
+          android:text="Sun,9 Jul, 15.56"
+          android:textAlignment="center"
+          android:layout_below="@id/rl_top_main"/>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_main_sunrise"
-        android:text="05:24"
-        android:textSize="23sp"
-        android:layout_marginTop="147dp"
-        android:layout_below="@+id/tv_main_date"
-        android:layout_toLeftOf="@+id/tv_main_tempNowNumb"
-        android:layout_toStartOf="@+id/tv_main_tempNowNumb"
-        android:layout_marginRight="32dp"
-        android:layout_marginEnd="32dp"/>
+        android:id="@+id/rl_middle_main"
+        android:layout_below="@id/tv_main_date"
+        android:layout_marginTop="30dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="sunrise"
-        android:layout_below="@id/tv_main_sunrise"
-        android:layout_toLeftOf="@+id/tv_main_tempNowNumb"
-        android:layout_toStartOf="@+id/tv_main_tempNowNumb"
-        android:layout_marginRight="32dp"
-        android:layout_marginEnd="32dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_main_sunset"
-        android:text="23:19"
-        android:textSize="20dp"
-        android:layout_alignBottom="@+id/tv_main_sunrise"
-        android:layout_toRightOf="@+id/tv_main_tempNowNumb"
-        android:layout_toEndOf="@+id/tv_main_tempNowNumb"
-        android:layout_marginLeft="32dp"
-        android:layout_marginStart="32dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="sunset"
-        android:id="@+id/textView"
-        android:layout_below="@id/tv_main_sunset"
-        android:layout_toRightOf="@+id/tv_main_tempNowNumb"
-        android:layout_toEndOf="@+id/tv_main_tempNowNumb"
-        android:layout_marginLeft="32dp"
-        android:layout_marginStart="32dp" />
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          android:layout_centerVertical="true"
+          android:layout_toLeftOf="@+id/tv_main_tempNowNumb"
+          android:layout_toStartOf="@+id/tv_main_tempNowNumb"
+          android:layout_marginRight="20dp"
+          android:layout_marginEnd="20dp">
 
-    <TextView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/tv_main_tempNowNumb"
-        android:text="+111"
-        android:textSize="40sp"
-        android:layout_marginTop="102dp"
-        android:layout_below="@+id/tv_main_date"
-        android:layout_alignLeft="@+id/tv_main_date"
-        android:layout_alignStart="@+id/tv_main_date" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_main_sunrise"
+            android:text="05:24"
+            android:textSize="23sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sunrise"
+            android:id="@+id/tv_main_sunrise_txt" />
+
+      </LinearLayout>
+
+
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          android:layout_toRightOf="@id/tv_main_tempNowNumb"
+          android:layout_toEndOf="@id/tv_main_tempNowNumb"
+          android:layout_centerVertical="true"
+          android:layout_marginLeft="20dp"
+          android:layout_marginStart="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_main_sunset"
+            android:text="23:19"
+            android:textSize="20dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sunset"
+            android:id="@+id/textView" />
+
+      </LinearLayout>
+
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="100dp"
+          android:id="@+id/tv_main_tempNowNumb"
+          android:text="+111"
+          android:textSize="45sp"
+          android:layout_centerInParent="true"
+          android:gravity="center"/>
+
+    </RelativeLayout>
+
+
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_main_weatherNowDescr"
+        android:layout_below="@id/rl_middle_main"
+        android:layout_centerHorizontal="true"
         android:text="Cloudy"
         android:textAlignment="center"
-        android:layout_below="@+id/tv_main_tempNowNumb"
-        android:layout_alignLeft="@+id/tv_main_cityName"
-        android:layout_alignStart="@+id/tv_main_cityName"
         android:layout_marginTop="20dp" />
 
     <TextView
@@ -122,8 +167,7 @@
         android:textAlignment="center"
         android:layout_marginTop="29dp"
         android:layout_below="@+id/tv_main_weatherNowDescr"
-        android:layout_alignRight="@+id/tv_main_date"
-        android:layout_alignEnd="@+id/tv_main_date" />
+        android:layout_centerHorizontal="true"/>
 
 
 
@@ -132,16 +176,23 @@
   </RelativeLayout>
 
 
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:orientation="horizontal">
+    <View
+        android:layout_width="20dp"
+        android:layout_height="match_parent"/>
     <android.support.v7.widget.CardView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view_main"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:alpha="0.45"
-        app:cardCornerRadius="12dp"
+        android:layout_height="400dp"
+        android:alpha="0.6"
+        app:cardBackgroundColor="#bdbdbd"
+        app:cardCornerRadius="10dp"
         app:cardPreventCornerOverlap="true">
-
-
       <android.support.v4.view.ViewPager
           android:id="@+id/vp_main"
           android:layout_width="match_parent"
@@ -157,6 +208,14 @@
       </android.support.v4.view.ViewPager>
 
     </android.support.v7.widget.CardView>
+    <View
+        android:layout_width="20dp"
+        android:layout_height="match_parent"/>
+  </LinearLayout>
+
+
+
+
 
 
 

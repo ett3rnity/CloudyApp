@@ -1,4 +1,4 @@
-package alexanderivanets.cloudyapp;
+package alexanderivanets.cloudyapp.view;
 
 import android.content.Context;
 

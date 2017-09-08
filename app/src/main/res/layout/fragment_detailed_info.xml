@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="alexanderivanets.cloudyapp.DetailedInfoFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="alexanderivanets.cloudyapp.view.DetailedInfoFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,6 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/fragment_date"
+        android:textSize="20sp"
         android:text="date"/>
 
     <android.support.v7.widget.RecyclerView
@@ -30,6 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/fragment_weather_descr"
+        android:textSize="20sp"
         android:text="weather"/>
 
     <android.support.v7.widget.RecyclerView
@@ -42,6 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/fragment_temp"
+        android:textSize="20sp"
         android:text="temperature, C"/>
 
     <android.support.v7.widget.RecyclerView
@@ -54,6 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/fragment_wind_speed"
+        android:textSize="20sp"
         android:text="wind speed"/>
 
     <android.support.v7.widget.RecyclerView
@@ -67,6 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/fragment_humidity"
+        android:textSize="20sp"
         android:text="humidity"/>
 
     <android.support.v7.widget.RecyclerView
@@ -79,6 +85,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/fragment_pressure"
+        android:textSize="20sp"
         android:text="pressure"/>
 
     <android.support.v7.widget.RecyclerView

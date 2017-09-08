@@ -1,4 +1,4 @@
-package alexanderivanets.cloudyapp;
+package alexanderivanets.cloudyapp.presenter;
 
 import alexanderivanets.cloudyapp.model.fivedayresponse.FiveDayResponse;
 
@@ -7,5 +7,6 @@ import alexanderivanets.cloudyapp.model.fivedayresponse.FiveDayResponse;
  */
 
 public interface DetailedInfoFragmentP {
-    void returnFiveDayInfo();
+    //infoCode - code of the actual info(hour or daily info)
+    void returnFiveDayInfo(int infoCode);
 }

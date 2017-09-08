@@ -1,4 +1,4 @@
-package alexanderivanets.cloudyapp;
+package alexanderivanets.cloudyapp.presenter;
 
 import com.google.android.gms.location.places.Place;
 

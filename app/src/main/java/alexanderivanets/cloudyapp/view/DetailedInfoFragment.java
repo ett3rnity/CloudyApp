@@ -1,12 +1,9 @@
-package alexanderivanets.cloudyapp;
+package alexanderivanets.cloudyapp.view;
 
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,15 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+import alexanderivanets.cloudyapp.adapter.DetailedAdapter;
+import alexanderivanets.cloudyapp.R;
 import alexanderivanets.cloudyapp.model.ItemDetailedWeather;
 import alexanderivanets.cloudyapp.model.fivedayresponse.FiveDayResponse;
 import alexanderivanets.cloudyapp.model.fivedayresponse.ListWeather;
 import alexanderivanets.cloudyapp.model.thisdayresponse.ThisDayResponse;
-import butterknife.BindArray;
-import butterknife.BindView;
+import alexanderivanets.cloudyapp.presenter.DetailedInfoFragmentP;
+import alexanderivanets.cloudyapp.presenter.DetailedInfoFragmentPresenter;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 
@@ -43,21 +41,31 @@ public class DetailedInfoFragment extends Fragment implements DetailedInfoFragme
 
     private DetailedInfoFragmentP presenter;
 
+    private static int CODE_HOURS = 1;
+    private static int CODE_DAYS = 2;
 
+
+    private int FRAGMENT_CODE;
 
     public DetailedInfoFragment() {
         // Required empty public constructor
     }
 
-    public static DetailedInfoFragment newInstance() {
+    public static DetailedInfoFragment newInstance(int FRAGMENT_CODE) {
         DetailedInfoFragment fragment = new DetailedInfoFragment();
         Bundle args = new Bundle();
+        args.putInt("FRAGMENT_CODE", FRAGMENT_CODE);
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        if(getArguments() != null){
+            FRAGMENT_CODE = getArguments().getInt("FRAGMENT_CODE");
+        }
+
         super.onCreate(savedInstanceState);
     }
 
@@ -77,7 +85,7 @@ public class DetailedInfoFragment extends Fragment implements DetailedInfoFragme
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter = new DetailedInfoFragmentPresenter(this);
-        presenter.returnFiveDayInfo();
+        presenter.returnFiveDayInfo(FRAGMENT_CODE);
     }
 
     @Override

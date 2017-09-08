@@ -1,7 +1,8 @@
-package alexanderivanets.cloudyapp;
+package alexanderivanets.cloudyapp.adapter;
 
 import android.content.Context;
 
+import alexanderivanets.cloudyapp.R;
 import alexanderivanets.cloudyapp.model.Theme;
 
 /**

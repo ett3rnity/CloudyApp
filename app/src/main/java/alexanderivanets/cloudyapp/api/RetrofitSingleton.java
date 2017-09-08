@@ -1,6 +1,6 @@
 package alexanderivanets.cloudyapp.api;
 
-import alexanderivanets.cloudyapp.Config;
+import alexanderivanets.cloudyapp.model.Config;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;

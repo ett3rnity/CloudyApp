@@ -1,54 +1,43 @@
-package alexanderivanets.cloudyapp;
+package alexanderivanets.cloudyapp.view;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.location.Location;
+import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.mancj.slideup.SlideUp;
+
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
-import java.security.PermissionCollection;
-import java.security.Permissions;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
+import alexanderivanets.cloudyapp.adapter.InfoPagerAdapter;
+import alexanderivanets.cloudyapp.R;
+import alexanderivanets.cloudyapp.adapter.ThemeAdapter;
 import alexanderivanets.cloudyapp.model.fivedayresponse.FiveDayResponse;
 import alexanderivanets.cloudyapp.model.thisdayresponse.ThisDayResponse;
+import alexanderivanets.cloudyapp.presenter.MainActivityP;
+import alexanderivanets.cloudyapp.presenter.MainActivityPImpl;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -59,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
     private MainActivityP presenter;
     private BroadcastReceiver broadcastReceiver;
     private IntentFilter intentFilter;
+    private Handler handler;
+
 
 
 
@@ -82,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
     ViewPager viewPager;
     @BindView(R.id.tl_main)
     TabLayout tabLayout;
+    @BindView(R.id.btn_main_locations)
+    ImageView goToLocations;
 
 
     @Override
@@ -90,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        handler = new Handler();
         setUpBroadcastReceiving();
         this.registerReceiver(broadcastReceiver, intentFilter);
 
@@ -117,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
         });
 
         setupViewPager();
-
+        setupButtonToLocations();
 
 
     }
@@ -243,6 +237,34 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }
+
+    private void setupButtonToLocations(){
+
+
+
+        goToLocations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Intent intent = new Intent(MainActivity.this, LocationsActivity.class);
+                        startActivity(intent);
+                    }
+                }, 700);
+
+                Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.back_anim);
+                goToLocations.startAnimation(animation);
+
+            }
+        });
+
+    }
+
+
+    
 
 
 }
