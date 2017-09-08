@@ -57,6 +57,7 @@ public class DBQueries {
         */
 
 
+
         cursor.close();
 
         return list;
