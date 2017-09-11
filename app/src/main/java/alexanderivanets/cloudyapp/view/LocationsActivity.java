@@ -1,5 +1,6 @@
 package alexanderivanets.cloudyapp.view;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 
 import alexanderivanets.cloudyapp.R;
 import alexanderivanets.cloudyapp.adapter.LocationsAdapter;
+import alexanderivanets.cloudyapp.model.Config;
 import alexanderivanets.cloudyapp.presenter.LocationsActivityP;
 import alexanderivanets.cloudyapp.presenter.LocationsActivityPImpl;
 import alexanderivanets.cloudyapp.utils.database.DBHandle;
@@ -25,7 +27,6 @@ public class LocationsActivity extends AppCompatActivity  implements LocationsAc
     @BindView(R.id.tl_locations) TabLayout tabLayout;
     PlaceAutocompleteFragment autocompleteFragment;
 
-    private LocationsActivityP presenter;
 
 
     @Override
@@ -35,18 +36,23 @@ public class LocationsActivity extends AppCompatActivity  implements LocationsAc
 
         ButterKnife.bind(this);
 
-        presenter = new LocationsActivityPImpl(this, getApplicationContext());
-
         autocompleteFragment = (PlaceAutocompleteFragment)getFragmentManager()
                 .findFragmentById(R.id.place_autocomplete_fragment);
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                // FIXME: 06.09.17 HERE WE GONA START MAIN ACTIVIVITY FROM INTENT
+                // FIXME: 06.09.17 HERE WE GONNA START MAIN ACTIVITY FROM INTENT
                 // PASS COORDINATES TO ACTIVITY,FROM ACTIVITY TO FRAGMENTS,TOO
                 //AND SAVE INFO INTO DATABASE
                 DBQueries.addToDatabase(place,getApplicationContext(), DBHandle.TABLE_NAME_RECENT);
+                Intent intent = new Intent(LocationsActivity.this, MainActivity.class);
+                intent.putExtra(Config.ITEM_FROM_LOCATION_ACTIVITY,true);
+                intent.putExtra(Config.ITEM_NUMBER,-1);
+                intent.putExtra(DBHandle.CITY_NAME_TXT,place.getName().toString());
+                intent.putExtra(DBHandle.LAT_TXT, place.getLatLng().latitude);
+                intent.putExtra(DBHandle.LON_TXT, place.getLatLng().longitude);
+                startActivity(intent);
             }
 
             @Override

@@ -10,7 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import alexanderivanets.cloudyapp.adapter.DetailedAdapter;
@@ -40,6 +43,8 @@ public class DetailedInfoFragment extends Fragment implements DetailedInfoFragme
     ArrayList<ArrayList<ItemDetailedWeather>> infoList;
 
     private DetailedInfoFragmentP presenter;
+    private double mLat;
+    private double mLon;
 
     private static int CODE_HOURS = 1;
     private static int CODE_DAYS = 2;
@@ -51,7 +56,7 @@ public class DetailedInfoFragment extends Fragment implements DetailedInfoFragme
         // Required empty public constructor
     }
 
-    public static DetailedInfoFragment newInstance(int FRAGMENT_CODE) {
+    public static DetailedInfoFragment newInstance(int FRAGMENT_CODE, double mLat, double mLon) {
         DetailedInfoFragment fragment = new DetailedInfoFragment();
         Bundle args = new Bundle();
         args.putInt("FRAGMENT_CODE", FRAGMENT_CODE);
@@ -64,6 +69,9 @@ public class DetailedInfoFragment extends Fragment implements DetailedInfoFragme
 
         if(getArguments() != null){
             FRAGMENT_CODE = getArguments().getInt("FRAGMENT_CODE");
+            mLat = getArguments().getDouble("mLat");
+            mLon = getArguments().getLong("mLon");
+
         }
 
         super.onCreate(savedInstanceState);
@@ -84,7 +92,7 @@ public class DetailedInfoFragment extends Fragment implements DetailedInfoFragme
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter = new DetailedInfoFragmentPresenter(this);
+        presenter = new DetailedInfoFragmentPresenter(this,mLat,mLon);
         presenter.returnFiveDayInfo(FRAGMENT_CODE);
     }
 
@@ -177,9 +185,10 @@ public class DetailedInfoFragment extends Fragment implements DetailedInfoFragme
         for (ListWeather list:
                 response.getList()) {
 
-            temp.add(new ItemDetailedWeather(list.getMain().getTemp().toString()));
-            date.add(new ItemDetailedWeather(list.getDtTxt()));
-            weather.add(new ItemDetailedWeather(list.getWeather().get(0).getDescription()));
+            temp.add(new ItemDetailedWeather(list.getMain().getTemp().toString() ));
+            date.add(new ItemDetailedWeather(formatDate(list.getDt()) ) );
+            weather.add(new ItemDetailedWeather(list.getWeather().get(0).getDescription() ,
+                    list.getWeather().get(0).getId().toString() ) );
             pressure.add(new ItemDetailedWeather(list.getMain().getPressure().toString()));
             humidity.add(new ItemDetailedWeather(list.getMain().getHumidity().toString()));
             wind_speed.add(new ItemDetailedWeather(list.getWind().getSpeed().toString()));
@@ -203,6 +212,18 @@ public class DetailedInfoFragment extends Fragment implements DetailedInfoFragme
             rv.setAdapter(adapter);
             index ++;
         }
+    }
+
+    private String formatDate(long dt){
+        Date date = new Date(dt *1000);
+        SimpleDateFormat sdf;
+        if(FRAGMENT_CODE == CODE_HOURS){
+            sdf = new SimpleDateFormat("HH:mm");
+        }else {
+            sdf = new SimpleDateFormat("EEE , d MMM HH:mm");
+        }
+        String formatedData =  sdf.format(date);
+        return formatedData;
     }
 
 }

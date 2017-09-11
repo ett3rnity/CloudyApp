@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundTrans"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="alexanderivanets.cloudyapp.view.LocationsActivity"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_dark">
+        android:background="@color/colorPrimary">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:orientation="vertical">
 
         <android.support.v7.widget.CardView
@@ -36,13 +37,16 @@
         <android.support.design.widget.TabLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tl_locations">
+            android:id="@+id/tl_locations"
+            app:tabTextColor="@android:color/tab_indicator_text"
+            app:tabIndicatorColor="@android:color/white"
+            app:tabSelectedTextColor="@android:color/white">
         </android.support.design.widget.TabLayout>
 
         </LinearLayout>
 
 
-    </android.support.v7.widget.Toolbar>
+    </RelativeLayout>
 
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"

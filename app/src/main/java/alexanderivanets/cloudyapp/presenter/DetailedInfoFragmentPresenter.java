@@ -32,22 +32,23 @@ import io.reactivex.schedulers.Schedulers;
 
 public class DetailedInfoFragmentPresenter implements DetailedInfoFragmentP{
 
-
-    // FIXME: 21.08.17 TEST VALUES
-
     private DetailedInfoFragmentV view;
     private Observable<FiveDayResponse> observable;
     private Observer<FiveDayResponse> observer;
     private WeatherAPI api;
 
+
+    private double mLat;
+    private double mLon;
     private static int CODE_HOURS = 1;
     private static int CODE_DAYS = 2;
 
 
-    public DetailedInfoFragmentPresenter(DetailedInfoFragmentV view){
+    public DetailedInfoFragmentPresenter(DetailedInfoFragmentV view, double mLat, double mLon){
         this.view = view;
         api = RetrofitSingleton.buildApi();
-
+        this.mLat = mLat;
+        this.mLon = mLon;
     }
 
 
@@ -55,10 +56,9 @@ public class DetailedInfoFragmentPresenter implements DetailedInfoFragmentP{
     public void returnFiveDayInfo(int code) {
 
         // FIXME: 21.08.17
-        String mCity = "Kiyev";
         String mUnits = "metric";
         String mLang = "en";
-        observable = api.getFiveDayResponse(mCity, mUnits, mLang, Config.WEATHER_API_KEY);
+        observable = api.getFiveDayResponse(mLat, mLon, mUnits, mLang, Config.WEATHER_API_KEY);
 
         observer = new Observer<FiveDayResponse>() {
             @Override

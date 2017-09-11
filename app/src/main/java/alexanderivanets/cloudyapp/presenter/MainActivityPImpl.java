@@ -29,7 +29,7 @@ import io.reactivex.schedulers.Schedulers;
 public class MainActivityPImpl implements MainActivityP {
 
     private Place place;
-    private String units;
+    private String units = "metric";
     private String lang;
     private MainActivityV view;
     private Observable<ThisDayResponse> observable;
@@ -49,13 +49,10 @@ public class MainActivityPImpl implements MainActivityP {
 
     @Override
     public void onGetInfo(boolean searchByGps) {
-        this.searchByGps = searchByGps;
-        view.onOutputError("ON GET INFO GPS");
         // FIXME: 30.08.17 TEST VALUES
         units = "metric";
         lang = "rus";
-
-
+        this.searchByGps = searchByGps;
         mainInfo(searchByGps);
 
     }

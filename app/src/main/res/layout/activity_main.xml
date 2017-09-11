@@ -10,8 +10,7 @@
     sothree:umanoPanelHeight="200dp"
     sothree:umanoOverlay="true"
     sothree:umanoClipPanel="true"
-    sothree:umanoShadowHeight="0dp"
-    sothree:umanoFadeColor="@android:color/transparent">
+    sothree:umanoShadowHeight="0dp">
 
   <RelativeLayout
     android:layout_width="match_parent"
@@ -32,15 +31,16 @@
         android:id="@+id/rl_top_main">
 
 
+
       <ImageView
-          android:layout_width="28dp"
-          android:layout_height="28dp"
+          android:layout_width="24dp"
+          android:layout_height="24dp"
           android:src="@drawable/ic_back"
           android:layout_marginEnd="8dp"
-          android:layout_marginLeft="8dp"
+          android:layout_marginLeft="16dp"
           android:layout_marginRight="8dp"
-          android:layout_marginStart="8dp"
-          android:layout_marginTop="8dp"
+          android:layout_marginStart="16dp"
+          android:layout_marginTop="16dp"
           android:id="@+id/btn_main_locations"
           android:layout_centerVertical="true"/>
 
@@ -50,11 +50,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_centerHorizontal="true"
-          android:layout_marginEnd="8dp"
-          android:layout_marginLeft="8dp"
-          android:layout_marginRight="8dp"
-          android:layout_marginStart="8dp"
-          android:layout_marginTop="8dp"
+          android:layout_centerVertical="true"
           android:text="Kiev"
           android:textSize="24sp" />
 
@@ -67,6 +63,7 @@
           android:layout_height="wrap_content"
           android:layout_centerHorizontal="true"
           android:layout_marginTop="14dp"
+          android:textSize="18sp"
           android:text="Sun,9 Jul, 15.56"
           android:textAlignment="center"
           android:layout_below="@id/rl_top_main"/>
@@ -97,12 +94,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/tv_main_sunrise"
             android:text="05:24"
-            android:textSize="23sp"/>
+            android:textSize="20sp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="sunrise"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:textColor="@android:color/white"
             android:id="@+id/tv_main_sunrise_txt" />
 
       </LinearLayout>
@@ -123,13 +122,15 @@
             android:layout_height="wrap_content"
             android:id="@+id/tv_main_sunset"
             android:text="23:19"
-            android:textSize="20dp"
+            android:textSize="20sp"
             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="sunset"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center_horizontal|center_vertical"
             android:id="@+id/textView" />
 
       </LinearLayout>
@@ -140,7 +141,7 @@
           android:layout_height="100dp"
           android:id="@+id/tv_main_tempNowNumb"
           android:text="+111"
-          android:textSize="45sp"
+          android:textSize="60sp"
           android:layout_centerInParent="true"
           android:gravity="center"/>
 
@@ -156,6 +157,7 @@
         android:layout_below="@id/rl_middle_main"
         android:layout_centerHorizontal="true"
         android:text="Cloudy"
+        android:textSize="26sp"
         android:textAlignment="center"
         android:layout_marginTop="20dp" />
 
@@ -164,6 +166,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/tv_main_windNow"
         android:text="Wind 4 m/s from N"
+        android:textSize="20sp"
         android:textAlignment="center"
         android:layout_marginTop="29dp"
         android:layout_below="@+id/tv_main_weatherNowDescr"
@@ -189,8 +192,7 @@
         android:id="@+id/card_view_main"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:alpha="0.6"
-        app:cardBackgroundColor="#bdbdbd"
+        app:cardBackgroundColor="@color/backgroundVP"
         app:cardCornerRadius="10dp"
         app:cardPreventCornerOverlap="true">
       <android.support.v4.view.ViewPager

@@ -1,9 +1,6 @@
 package alexanderivanets.cloudyapp.view;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,17 +15,18 @@ import alexanderivanets.cloudyapp.adapter.CardItemLocationAdapter;
 import alexanderivanets.cloudyapp.model.CardItemFromDatabase;
 import alexanderivanets.cloudyapp.presenter.LocationsFragmentP;
 import alexanderivanets.cloudyapp.presenter.LocationsFragmentPImpl;
-import alexanderivanets.cloudyapp.utils.CardItemOnClickListener;
 import alexanderivanets.cloudyapp.utils.database.DBHandle;
-import alexanderivanets.cloudyapp.utils.database.DBQueries;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LocationsFragment extends Fragment  implements LocationsFragmentV{
 
-    private int fragmentType;
     private CardItemLocationAdapter adapter;
     private LocationsFragmentP presenter;
+
+
+
+    private int fragmentType;
 
     @BindView(R.id.rv_locations_fragment)
     RecyclerView recyclerView;
@@ -41,13 +39,14 @@ public class LocationsFragment extends Fragment  implements LocationsFragmentV{
         LocationsFragment fragment = new LocationsFragment();
         Bundle args = new Bundle();
         args.putInt("fragmentType", fragmentType);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+        if(getArguments() != null){
             fragmentType = getArguments().getInt("fragmentType");
         }
     }
@@ -60,11 +59,18 @@ public class LocationsFragment extends Fragment  implements LocationsFragmentV{
         ButterKnife.bind(this,v);
 
         String tableName;
-        if(fragmentType == 1) tableName = DBHandle.TABLE_NAME_RECENT;
-        else  tableName = DBHandle.TABLE_NAME_FAVOURITE;
+        if(fragmentType == 0) tableName = DBHandle.TABLE_NAME_RECENT;
+        else  if(fragmentType == 1)tableName = DBHandle.TABLE_NAME_FAVOURITE;
+        else tableName = DBHandle.TABLE_NAME_FAVOURITE;
 
         presenter = new LocationsFragmentPImpl(this, getContext(),tableName);
         presenter.getCardItemList();
+
+        adapter = new CardItemLocationAdapter(new ArrayList<>(), getContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adapter);
+
+
 
         return v;
     }
@@ -72,27 +78,9 @@ public class LocationsFragment extends Fragment  implements LocationsFragmentV{
 
     @Override
     public void setInfoIntoCards(ArrayList<CardItemFromDatabase> list) {
-            adapter = new CardItemLocationAdapter(list);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            recyclerView.setAdapter(new RecyclerView.Adapter() {
-                @Override
-                public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                    return null;
-                }
-
-                @Override
-                public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-                }
-
-                @Override
-                public int getItemCount() {
-                    return 0;
-                }
-            });
-        for(int i=0;i<list.size();i++){
-            System.out.println(list.get(i).getCityName());
-        }
+            adapter = new CardItemLocationAdapter(list,getActivity());
             recyclerView.setAdapter(adapter);
     }
 }
+
+

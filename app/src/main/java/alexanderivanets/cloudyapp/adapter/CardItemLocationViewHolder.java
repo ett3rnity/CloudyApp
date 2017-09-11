@@ -3,6 +3,7 @@ package alexanderivanets.cloudyapp.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import alexanderivanets.cloudyapp.R;
@@ -22,6 +23,8 @@ public class CardItemLocationViewHolder extends RecyclerView.ViewHolder {
     TextView cityWeather;
     @BindView(R.id.iv_item_location_isFavourite)
     ImageView isFavourite;
+    @BindView(R.id.rl_item_location)
+    RelativeLayout layout;
 
     public CardItemLocationViewHolder(View itemView) {
         super(itemView);

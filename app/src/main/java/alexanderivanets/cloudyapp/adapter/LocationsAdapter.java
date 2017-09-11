@@ -5,6 +5,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
+import android.widget.Toast;
+
+import java.util.List;
 
 import alexanderivanets.cloudyapp.view.LocationsFragment;
 
@@ -15,10 +18,12 @@ import alexanderivanets.cloudyapp.view.LocationsFragment;
 public class LocationsAdapter extends FragmentStatePagerAdapter {
 
     private String[] tabName = {"RECENT", "FAVOURITES"};
+    private Fragment[] listFragments = {LocationsFragment.newInstance(0),LocationsFragment.newInstance(1)};
 
 
     public LocationsAdapter(FragmentManager fm) {
         super(fm);
+
     }
 
 

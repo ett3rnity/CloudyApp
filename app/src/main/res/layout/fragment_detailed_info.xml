@@ -15,25 +15,67 @@
         android:orientation="vertical">
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/fragment_date"
-        android:textSize="20sp"
-        android:text="date"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fragment_date"
+                android:text="Date"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"/>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1px"
+                android:layout_toRightOf="@id/fragment_date"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:background="@android:color/white"/>
+
+        </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/fragment_date_rv">
+        android:id="@+id/fragment_date_rv"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginRight="4dp"
+        >
     </android.support.v7.widget.RecyclerView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/fragment_weather_descr"
-        android:textSize="20sp"
-        android:text="weather"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fragment_weather_descr"
+                android:text="Weather"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"/>
+
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1px"
+                android:layout_toRightOf="@id/fragment_weather_descr"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:background="@android:color/white"/>
+
+        </RelativeLayout>
+
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
@@ -41,12 +83,33 @@
         android:id="@+id/fragment_weather_rv">
     </android.support.v7.widget.RecyclerView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/fragment_temp"
-        android:textSize="20sp"
-        android:text="temperature, C"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fragment_temp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:textSize="20sp"
+                android:text="Temperature, C"
+                android:textColor="@android:color/white"/>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1px"
+                android:layout_toRightOf="@id/fragment_temp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:background="@android:color/white"/>
+
+
+        </RelativeLayout>
+
+
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
@@ -54,12 +117,33 @@
         android:id="@+id/fragment_temp_rv">
     </android.support.v7.widget.RecyclerView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/fragment_wind_speed"
-        android:textSize="20sp"
-        android:text="wind speed"/>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fragment_wind_speed"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:textSize="20sp"
+                android:text="Wind speed, m/s"
+                android:textColor="@android:color/white"/>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1px"
+                android:layout_toRightOf="@id/fragment_wind_speed"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:background="@android:color/white"/>
+
+        </RelativeLayout>
+
+
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
@@ -68,12 +152,33 @@
     </android.support.v7.widget.RecyclerView>
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/fragment_humidity"
-        android:textSize="20sp"
-        android:text="humidity"/>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fragment_humidity"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:textSize="20sp"
+                android:text="Humidity, %"
+                android:textColor="@android:color/white"/>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1px"
+                android:layout_toRightOf="@id/fragment_humidity"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:background="@android:color/white"/>
+
+        </RelativeLayout>
+
+
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
@@ -81,12 +186,35 @@
         android:id="@+id/fragment_humidity_rv">
     </android.support.v7.widget.RecyclerView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/fragment_pressure"
-        android:textSize="20sp"
-        android:text="pressure"/>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fragment_pressure"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:textSize="20sp"
+                android:text="Pressure, hPa"
+                android:textColor="@android:color/white"/>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1px"
+                android:layout_toRightOf="@id/fragment_pressure"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:background="@android:color/white"/>
+
+
+
+        </RelativeLayout>
+
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

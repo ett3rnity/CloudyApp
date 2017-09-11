@@ -12,14 +12,18 @@ import alexanderivanets.cloudyapp.view.DetailedInfoFragment;
 
 public class InfoPagerAdapter extends FragmentStatePagerAdapter {
     private String[] tabs = {"HOURS","DAYS"};
+    private double mLat;
+    private double mLon;
 
-    public InfoPagerAdapter(FragmentManager fm) {
+    public InfoPagerAdapter(FragmentManager fm, double mLat, double mLon) {
         super(fm);
+        this.mLat = mLat;
+        this.mLon = mLon;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return DetailedInfoFragment.newInstance(position+1);
+        return DetailedInfoFragment.newInstance(position+1, mLat, mLon);
     }
 
 

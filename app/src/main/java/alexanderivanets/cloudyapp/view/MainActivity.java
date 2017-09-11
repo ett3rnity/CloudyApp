@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -26,18 +27,25 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 
 import alexanderivanets.cloudyapp.adapter.InfoPagerAdapter;
 import alexanderivanets.cloudyapp.R;
 import alexanderivanets.cloudyapp.adapter.ThemeAdapter;
+import alexanderivanets.cloudyapp.model.Config;
+import alexanderivanets.cloudyapp.model.ItemFromDatabase;
 import alexanderivanets.cloudyapp.model.fivedayresponse.FiveDayResponse;
 import alexanderivanets.cloudyapp.model.thisdayresponse.ThisDayResponse;
 import alexanderivanets.cloudyapp.presenter.MainActivityP;
 import alexanderivanets.cloudyapp.presenter.MainActivityPImpl;
+import alexanderivanets.cloudyapp.utils.database.DBHandle;
+import alexanderivanets.cloudyapp.utils.database.DBQueries;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -50,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
     private IntentFilter intentFilter;
     private Handler handler;
 
+
+    private boolean anotherActivity;
 
 
 
@@ -90,8 +100,18 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
         presenter = new MainActivityPImpl(this);
 
 
+        Bundle bundle = getIntent().getExtras();
+        if (bundle !=null) {
+            anotherActivity = bundle.getBoolean(Config.ITEM_FROM_LOCATION_ACTIVITY);
+            if (anotherActivity) {
+                int itemNumb  = bundle.getInt(Config.ITEM_NUMBER);
+                runItemFromDb(itemNumb);
+            }
+        }else {
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+        }
 
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+
 
 
         cityName.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
                  }
         });
 
-        setupViewPager();
+
         setupButtonToLocations();
 
 
@@ -121,8 +141,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
         if(requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE){
             if(resultCode == RESULT_OK){
                 Place place = PlaceAutocomplete.getPlace(this,data);
-                presenter.onGetInfo(false,place,"metric", "ru-RUS");
 
+                presenter.onGetInfo(false,place,"metric", "ru-RUS");
             }
         }
     }
@@ -144,11 +164,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
                     //do a gps request
                     //noinspection MissingPermission
                     presenter.onGetInfo(true);
+                } else if (DBQueries.getEntityList(getApplicationContext(), DBHandle.TABLE_NAME_RECENT).size() != 0) {
+                    {
+                            runItemFromDb(DBQueries.sizeOfDatabase(getApplicationContext(), DBHandle.TABLE_NAME_RECENT) - 1);
+                    }
                 }
-                    break;
-
-                }
+                break;
         }
+    }
 
 
     @Override
@@ -187,6 +210,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
         sunRise.setTextColor(Color.parseColor(themeAdapter.getTextColor()));
         sunSet.setTextColor(Color.parseColor(themeAdapter.getTextColor()));
 
+
+        setupViewPager(response.getCoord().getLat(), response.getCoord().getLon());
 
     }
 
@@ -232,8 +257,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
     }
 
 
-    private void setupViewPager(){
-        InfoPagerAdapter adapter = new InfoPagerAdapter(getSupportFragmentManager());
+    private void setupViewPager(double mLat, double mLon){
+        InfoPagerAdapter adapter = new InfoPagerAdapter(getSupportFragmentManager(), mLat, mLon);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }
@@ -253,7 +278,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
                         Intent intent = new Intent(MainActivity.this, LocationsActivity.class);
                         startActivity(intent);
                     }
-                }, 700);
+                }, 600);
 
                 Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.back_anim);
                 goToLocations.startAnimation(animation);
@@ -261,6 +286,89 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
             }
         });
 
+    }
+
+
+
+    private void runItemFromDb(int itemNumb){
+        List<ItemFromDatabase> list = DBQueries.getEntityList(getApplicationContext(), DBHandle.TABLE_NAME_RECENT);
+        int size;
+        if(itemNumb < 0) size =list.size() -1;
+        else size = itemNumb;
+        presenter.onGetInfo(false,
+                new Place() {
+                    ItemFromDatabase itemFromDatabase = DBQueries.getEntityList(getApplicationContext(),DBHandle.TABLE_NAME_RECENT).get(size);
+                    @Override
+                    public String getId() {
+                        return null;
+                    }
+
+                    @Override
+                    public List<Integer> getPlaceTypes() {
+                        return null;
+                    }
+
+                    @Override
+                    public CharSequence getAddress() {
+                        return null;
+                    }
+
+                    @Override
+                    public Locale getLocale() {
+                        return null;
+                    }
+
+                    @Override
+                    public CharSequence getName() {
+                        return itemFromDatabase.getCityName();
+                    }
+
+                    @Override
+                    public LatLng getLatLng() {
+                        return new LatLng(itemFromDatabase.getLat(), itemFromDatabase.getLon());
+                    }
+
+                    @Override
+                    public LatLngBounds getViewport() {
+                        return null;
+                    }
+
+                    @Override
+                    public Uri getWebsiteUri() {
+                        return null;
+                    }
+
+                    @Override
+                    public CharSequence getPhoneNumber() {
+                        return null;
+                    }
+
+                    @Override
+                    public float getRating() {
+                        return 0;
+                    }
+
+                    @Override
+                    public int getPriceLevel() {
+                        return 0;
+                    }
+
+                    @Override
+                    public CharSequence getAttributions() {
+                        return null;
+                    }
+
+                    @Override
+                    public Place freeze() {
+                        return null;
+                    }
+
+                    @Override
+                    public boolean isDataValid() {
+                        return false;
+                    }
+                },
+                "metric", "en");
     }
 
 

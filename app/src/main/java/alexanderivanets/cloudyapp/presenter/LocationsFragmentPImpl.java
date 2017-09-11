@@ -48,7 +48,7 @@ public class LocationsFragmentPImpl implements LocationsFragmentP {
     public void getCardItemList() {
         WeatherAPI api = RetrofitSingleton.buildApi();
 
-        ArrayList<ItemFromDatabase> dbItems = DBQueries.getEntityList(context, tableName);
+        List<ItemFromDatabase> dbItems = DBQueries.getEntityList(context, tableName);
 
         for (ItemFromDatabase item:
              dbItems) {
@@ -58,27 +58,29 @@ public class LocationsFragmentPImpl implements LocationsFragmentP {
     }
 
     private void setObservable(WeatherAPI api, ItemFromDatabase itemFromDatabase){
-        Observable<ThisDayResponse> observable = api.getThisDayResponse(itemFromDatabase.getCityName(), "metric", "ru-RUS", Config.WEATHER_API_KEY);
+        Observable<ThisDayResponse> observable = api.getThisDayResponseCoord(itemFromDatabase.getLat(),
+                itemFromDatabase.getLon(), "metric", "en", Config.WEATHER_API_KEY);
 
         Observer<ThisDayResponse> observer = new Observer<ThisDayResponse>() {
             @Override
             public void onSubscribe(Disposable d) {
-                Toast.makeText(context, "SUB", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
             public void onNext(ThisDayResponse value) {
+                boolean isInFavouriteDb = DBQueries.isItemFromDatabase(context,
+                        DBHandle.TABLE_NAME_FAVOURITE, value.getName());
 
-                Toast.makeText(context, "NEXT", Toast.LENGTH_SHORT).show();
-                //// FIXME: 07.09.17 check fav db for 3rd parameter
-                cardList.add(new CardItemFromDatabase(value.getName(),
-                        value.getWeather().get(0).getDescription(),
-                        false));
+
+                cardList.add(new CardItemFromDatabase(itemFromDatabase.getCityName(),
+                        value.getMain().getTemp() + " \u2103",
+                        isInFavouriteDb, value.getWeather().get(0).getId(), value.getCoord().getLat(), value.getCoord().getLon() ) );
             }
 
             @Override
             public void onError(Throwable e) {
-                Toast.makeText(context, "LOC FRAGMENT ERROR", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -86,6 +88,12 @@ public class LocationsFragmentPImpl implements LocationsFragmentP {
                 view.setInfoIntoCards(cardList);
             }
         };
+
+
+
+
+
+        
 
         observable
                 .subscribeOn(Schedulers.computation())
