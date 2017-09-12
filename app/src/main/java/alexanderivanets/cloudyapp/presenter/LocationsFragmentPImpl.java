@@ -50,10 +50,7 @@ public class LocationsFragmentPImpl implements LocationsFragmentP {
 
         List<ItemFromDatabase> dbItems = DBQueries.getEntityList(context, tableName);
 
-        for (ItemFromDatabase item:
-             dbItems) {
-            setObservable(api,item);
-        }
+        setObservable(dbItems, api);
 
     }
 
@@ -73,9 +70,9 @@ public class LocationsFragmentPImpl implements LocationsFragmentP {
                         DBHandle.TABLE_NAME_FAVOURITE, value.getName());
 
 
-                cardList.add(new CardItemFromDatabase(itemFromDatabase.getCityName(),
+                cardList.add(new CardItemFromDatabase(value.getName(),
                         value.getMain().getTemp() + " \u2103",
-                        isInFavouriteDb, value.getWeather().get(0).getId(), value.getCoord().getLat(), value.getCoord().getLon() ) );
+                        isInFavouriteDb, value.getWeather().get(0).getId(), value.getCoord().getLat(), value.getCoord().getLon(), cardList.indexOf(itemFromDatabase) ) );
             }
 
             @Override
@@ -93,12 +90,59 @@ public class LocationsFragmentPImpl implements LocationsFragmentP {
 
 
 
-        
+
 
         observable
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
+
+    }
+
+
+
+
+    private void setObservable(List<ItemFromDatabase> list, WeatherAPI api){
+        Observable<ThisDayResponse> observable;
+        Observer <ThisDayResponse> observer;
+        for (ItemFromDatabase item : list) {
+            observable = api.getThisDayResponseCoord(item.getLat(),  item.getLon(),
+                    "metric", "en", Config.WEATHER_API_KEY);
+            observer = new Observer<ThisDayResponse>() {
+                @Override
+                public void onSubscribe(Disposable d) {
+
+                }
+
+                @Override
+                public void onNext(ThisDayResponse value) {
+                    boolean isInFavouriteDb = DBQueries.isItemFromDatabase(context,
+                            DBHandle.TABLE_NAME_FAVOURITE, value.getName());
+
+
+                    cardList.add(new CardItemFromDatabase(value.getName(),
+                            value.getMain().getTemp() + " \u2103",
+                            isInFavouriteDb, value.getWeather().get(0).getId(), value.getCoord().getLat(), value.getCoord().getLon(), list.indexOf(item) ) );
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onComplete() {
+                        view.setInfoIntoCards(cardList);
+                }
+            };
+
+            observable.subscribeOn(Schedulers.computation())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    //.unsubscribeOn(Schedulers.computation())
+                    .subscribe(observer);
+
+
+        }
 
     }
 }

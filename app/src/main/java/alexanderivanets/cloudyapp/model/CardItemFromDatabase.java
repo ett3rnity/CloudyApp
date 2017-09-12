@@ -11,15 +11,17 @@ public class CardItemFromDatabase {
     private int weatherCode;
     private double lat;
     private double lon;
+    private int numb;
 
     public CardItemFromDatabase(String cityName, String weather, boolean isFavourite, int weatherCode,
-                                double lat, double lon){
+                                double lat, double lon, int numb){
         this.cityName = cityName;
         this.weather = weather;
         this.isFavourite = isFavourite;
         this.weatherCode = weatherCode;
         this.lat = lat;
         this.lon = lon;
+        this.numb = numb;
     }
 
     public String getCityName() {
@@ -49,6 +51,14 @@ public class CardItemFromDatabase {
 
     public double getLon() {
         return lon;
+    }
+
+    public int getNumb() {
+        return numb;
+    }
+
+    public void setNumb(int numb) {
+        this.numb = numb;
     }
 
     public void setWeatherCode(int weatherCode) {

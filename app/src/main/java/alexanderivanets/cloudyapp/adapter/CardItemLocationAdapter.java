@@ -65,7 +65,7 @@ public class CardItemLocationAdapter extends RecyclerView.Adapter<CardItemLocati
             public void onClick(View v) {
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.putExtra(Config.ITEM_FROM_LOCATION_ACTIVITY,true);
-                intent.putExtra(Config.ITEM_NUMBER, holder.getAdapterPosition());
+                intent.putExtra(Config.ITEM_NUMBER, list.get(holder.getAdapterPosition()).getNumb() );
                 context.startActivity(intent);
 
             }
