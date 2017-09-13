@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -16,12 +17,15 @@ import android.support.v4.content.PermissionChecker;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
     private IntentFilter intentFilter;
     private Handler handler;
 
+    private Bundle bundle;
+
 
     private boolean anotherActivity;
 
@@ -88,6 +94,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
     TabLayout tabLayout;
     @BindView(R.id.btn_main_locations)
     ImageView goToLocations;
+    @BindView(R.id.pb_main)
+    ProgressBar progressBar;
+    @BindView(R.id.card_view_main)
+    CardView slider;
 
 
     @Override
@@ -95,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window w = getWindow(); // in Activity's onCreate() for instance
@@ -108,14 +119,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
         presenter = new MainActivityPImpl(this);
 
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle !=null) {
-            anotherActivity = bundle.getBoolean(Config.ITEM_FROM_LOCATION_ACTIVITY);
-            if (anotherActivity) {
+        bundle = getIntent().getExtras();
+        if (bundle !=null && bundle.getBoolean(Config.ITEM_FROM_LOCATION_ACTIVITY) ) {
                 int itemNumb  = bundle.getInt(Config.ITEM_NUMBER);
                 runItemFromDb(itemNumb);
-            }
-        }else {
+
+        }else if(DBQueries.getEntityList(this, DBHandle.TABLE_NAME_RECENT).size() != 0){
+            runItemFromDb(-1);
+        }
+        else {
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
         }
 
@@ -159,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(broadcastReceiver);
+        bundle = null;
     }
 
     @Override
@@ -174,8 +187,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
                     presenter.onGetInfo(true);
                 } else if (DBQueries.getEntityList(getApplicationContext(), DBHandle.TABLE_NAME_RECENT).size() != 0) {
                     {
-                            runItemFromDb(DBQueries.sizeOfDatabase(getApplicationContext(), DBHandle.TABLE_NAME_RECENT) - 1);
+                            runItemFromDb(-1);
                     }
+                }else {
+                    Intent intent = new Intent(MainActivity.this, LocationsActivity.class);
+                    startActivity(intent);
                 }
                 break;
         }
@@ -189,10 +205,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
 
     @Override
     public void onInputThisDayInfo(ThisDayResponse response) {
+        progressBar.setVisibility(View.INVISIBLE);
+        slider.setVisibility(View.VISIBLE);
         cityName.setText(response.getName());
         int tempTmp = (int)Math.round(response.getMain().getTemp());
         String sign = (Math.signum(tempTmp) == 1.0f) ? "+" : "-";
-        tempNow.setText(sign+tempTmp);
+        tempNow.setText(sign+tempTmp + " \u2103");
         weatherNow.setText(response.getWeather().get(0).getDescription());
         windNow.setText("wind speed " + response.getWind().getSpeed());
         setDate(date, System.currentTimeMillis(), "EEE, MMMMMMMM dd, HH:mm");
@@ -299,13 +317,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
 
 
     private void runItemFromDb(int itemNumb){
+        if(presenter == null){
+            presenter = new MainActivityPImpl(this);
+        }
         List<ItemFromDatabase> list = DBQueries.getEntityList(getApplicationContext(), DBHandle.TABLE_NAME_RECENT);
         int size;
         if(itemNumb < 0) size =list.size() -1;
         else size = itemNumb;
         presenter.onGetInfo(false,
                 new Place() {
-                    ItemFromDatabase itemFromDatabase = DBQueries.getEntityList(getApplicationContext(),DBHandle.TABLE_NAME_RECENT).get(size);
+                    ItemFromDatabase itemFromDatabase = list.get(size);
                     @Override
                     public String getId() {
                         return null;

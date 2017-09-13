@@ -6,6 +6,4 @@ package alexanderivanets.cloudyapp.view;
 
 public interface LocationsActivityV {
 
-    void showRecent();
-    void ShowFavourites();
 }

@@ -51,7 +51,7 @@ public class MainActivityPImpl implements MainActivityP {
     public void onGetInfo(boolean searchByGps) {
         // FIXME: 30.08.17 TEST VALUES
         units = "metric";
-        lang = "rus";
+        lang = "ru";
         this.searchByGps = searchByGps;
         mainInfo(searchByGps);
 

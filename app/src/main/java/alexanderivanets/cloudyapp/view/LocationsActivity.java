@@ -42,9 +42,6 @@ public class LocationsActivity extends AppCompatActivity  implements LocationsAc
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                // FIXME: 06.09.17 HERE WE GONNA START MAIN ACTIVITY FROM INTENT
-                // PASS COORDINATES TO ACTIVITY,FROM ACTIVITY TO FRAGMENTS,TOO
-                //AND SAVE INFO INTO DATABASE
                 DBQueries.addToDatabase(place,getApplicationContext(), DBHandle.TABLE_NAME_RECENT);
                 Intent intent = new Intent(LocationsActivity.this, MainActivity.class);
                 intent.putExtra(Config.ITEM_FROM_LOCATION_ACTIVITY,true);
@@ -68,6 +65,10 @@ public class LocationsActivity extends AppCompatActivity  implements LocationsAc
     }
 
 
+    @Override
+    public void onBackPressed() {
+    }
+
     private void setupViewPager(){
         LocationsAdapter adapter = new LocationsAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
@@ -76,17 +77,6 @@ public class LocationsActivity extends AppCompatActivity  implements LocationsAc
 
     }
 
-
-
-    @Override
-    public void showRecent() {
-
-    }
-
-    @Override
-    public void ShowFavourites() {
-
-    }
 
 
 

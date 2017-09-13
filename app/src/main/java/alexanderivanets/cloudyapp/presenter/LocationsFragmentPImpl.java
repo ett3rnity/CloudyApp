@@ -56,7 +56,7 @@ public class LocationsFragmentPImpl implements LocationsFragmentP {
 
     private void setObservable(WeatherAPI api, ItemFromDatabase itemFromDatabase){
         Observable<ThisDayResponse> observable = api.getThisDayResponseCoord(itemFromDatabase.getLat(),
-                itemFromDatabase.getLon(), "metric", "en", Config.WEATHER_API_KEY);
+                itemFromDatabase.getLon(), "metric", "ru", Config.WEATHER_API_KEY);
 
         Observer<ThisDayResponse> observer = new Observer<ThisDayResponse>() {
             @Override
@@ -70,7 +70,7 @@ public class LocationsFragmentPImpl implements LocationsFragmentP {
                         DBHandle.TABLE_NAME_FAVOURITE, value.getName());
 
 
-                cardList.add(new CardItemFromDatabase(value.getName(),
+                cardList.add(new CardItemFromDatabase(itemFromDatabase.getCityName(),
                         value.getMain().getTemp() + " \u2103",
                         isInFavouriteDb, value.getWeather().get(0).getId(), value.getCoord().getLat(), value.getCoord().getLon(), cardList.indexOf(itemFromDatabase) ) );
             }
@@ -107,7 +107,7 @@ public class LocationsFragmentPImpl implements LocationsFragmentP {
         Observer <ThisDayResponse> observer;
         for (ItemFromDatabase item : list) {
             observable = api.getThisDayResponseCoord(item.getLat(),  item.getLon(),
-                    "metric", "en", Config.WEATHER_API_KEY);
+                    "metric", "ru", Config.WEATHER_API_KEY);
             observer = new Observer<ThisDayResponse>() {
                 @Override
                 public void onSubscribe(Disposable d) {
@@ -120,7 +120,7 @@ public class LocationsFragmentPImpl implements LocationsFragmentP {
                             DBHandle.TABLE_NAME_FAVOURITE, value.getName());
 
 
-                    cardList.add(new CardItemFromDatabase(value.getName(),
+                    cardList.add(new CardItemFromDatabase(item.getCityName(),
                             value.getMain().getTemp() + " \u2103",
                             isInFavouriteDb, value.getWeather().get(0).getId(), value.getCoord().getLat(), value.getCoord().getLon(), list.indexOf(item) ) );
                 }
@@ -138,7 +138,6 @@ public class LocationsFragmentPImpl implements LocationsFragmentP {
 
             observable.subscribeOn(Schedulers.computation())
                     .observeOn(AndroidSchedulers.mainThread())
-                    //.unsubscribeOn(Schedulers.computation())
                     .subscribe(observer);
 
 
