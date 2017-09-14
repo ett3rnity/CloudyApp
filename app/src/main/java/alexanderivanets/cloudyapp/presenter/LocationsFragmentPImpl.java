@@ -117,7 +117,7 @@ public class LocationsFragmentPImpl implements LocationsFragmentP {
                 @Override
                 public void onNext(ThisDayResponse value) {
                     boolean isInFavouriteDb = DBQueries.isItemFromDatabase(context,
-                            DBHandle.TABLE_NAME_FAVOURITE, value.getName());
+                            DBHandle.TABLE_NAME_FAVOURITE, item.getCityName());
 
 
                     cardList.add(new CardItemFromDatabase(item.getCityName(),

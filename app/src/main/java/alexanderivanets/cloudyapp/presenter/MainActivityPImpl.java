@@ -30,7 +30,7 @@ public class MainActivityPImpl implements MainActivityP {
 
     private Place place;
     private String units = "metric";
-    private String lang;
+    private String lang = "ru";
     private MainActivityV view;
     private Observable<ThisDayResponse> observable;
     private DisposableObserver<ThisDayResponse> observer;
@@ -49,9 +49,6 @@ public class MainActivityPImpl implements MainActivityP {
 
     @Override
     public void onGetInfo(boolean searchByGps) {
-        // FIXME: 30.08.17 TEST VALUES
-        units = "metric";
-        lang = "ru";
         this.searchByGps = searchByGps;
         mainInfo(searchByGps);
 

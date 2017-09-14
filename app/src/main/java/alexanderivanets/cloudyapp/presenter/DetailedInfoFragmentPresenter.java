@@ -57,7 +57,7 @@ public class DetailedInfoFragmentPresenter implements DetailedInfoFragmentP{
 
         // FIXME: 21.08.17
         String mUnits = "metric";
-        String mLang = "en";
+        String mLang = "ru";
         observable = api.getFiveDayResponse(mLat, mLon, mUnits, mLang, Config.WEATHER_API_KEY);
 
         observer = new Observer<FiveDayResponse>() {

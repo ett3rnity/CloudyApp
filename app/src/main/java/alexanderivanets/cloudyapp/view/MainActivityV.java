@@ -12,8 +12,6 @@ import alexanderivanets.cloudyapp.model.thisdayresponse.ThisDayResponse;
 
 public interface MainActivityV {
 
-    void onInputFiveDayInfo(FiveDayResponse response);
-
     void onInputThisDayInfo(ThisDayResponse response);
 
     void onOutputError(String e);

@@ -60,6 +60,8 @@ public class DetailedInfoFragment extends Fragment implements DetailedInfoFragme
         DetailedInfoFragment fragment = new DetailedInfoFragment();
         Bundle args = new Bundle();
         args.putInt("FRAGMENT_CODE", FRAGMENT_CODE);
+        args.putDouble("mLat", mLat);
+        args.putDouble("mLon", mLon);
         fragment.setArguments(args);
         return fragment;
     }
@@ -124,10 +126,7 @@ public class DetailedInfoFragment extends Fragment implements DetailedInfoFragme
 
     }
 
-    @Override
-    public void enterInfoIntoViews(ThisDayResponse response) {
 
-    }
 
     @Override
     public Context getContext(){

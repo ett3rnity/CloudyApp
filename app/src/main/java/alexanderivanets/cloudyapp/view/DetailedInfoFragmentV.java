@@ -12,7 +12,6 @@ import alexanderivanets.cloudyapp.model.thisdayresponse.ThisDayResponse;
 public interface DetailedInfoFragmentV {
 
     void enterInfoIntoViews(FiveDayResponse response);
-    void enterInfoIntoViews(ThisDayResponse response);
 
     Context getContext();
 }

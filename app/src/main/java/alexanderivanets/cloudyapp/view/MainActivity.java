@@ -198,10 +198,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
     }
 
 
-    @Override
-    public void onInputFiveDayInfo(FiveDayResponse response) {
-
-    }
 
     @Override
     public void onInputThisDayInfo(ThisDayResponse response) {
