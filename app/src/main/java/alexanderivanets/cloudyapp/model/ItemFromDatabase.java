@@ -40,4 +40,7 @@ public class ItemFromDatabase {
     public void setLon(double lon) {
         this.lon = lon;
     }
+
+
+
 }

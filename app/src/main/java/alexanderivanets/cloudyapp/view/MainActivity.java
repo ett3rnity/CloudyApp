@@ -47,6 +47,7 @@ import alexanderivanets.cloudyapp.R;
 import alexanderivanets.cloudyapp.adapter.ThemeAdapter;
 import alexanderivanets.cloudyapp.model.Config;
 import alexanderivanets.cloudyapp.model.ItemFromDatabase;
+import alexanderivanets.cloudyapp.model.PlaceBuilder;
 import alexanderivanets.cloudyapp.model.fivedayresponse.FiveDayResponse;
 import alexanderivanets.cloudyapp.model.thisdayresponse.ThisDayResponse;
 import alexanderivanets.cloudyapp.presenter.MainActivityP;
@@ -128,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
             runItemFromDb(-1);
         }
         else {
+            //// FIXME: 14.09.17 android 5.0 - crash, get system service and check for enabled geodata
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
         }
 
@@ -320,80 +322,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
         int size;
         if(itemNumb < 0) size =list.size() -1;
         else size = itemNumb;
+        ItemFromDatabase itemFromDatabase = list.get(size);
+
         presenter.onGetInfo(false,
-                new Place() {
-                    ItemFromDatabase itemFromDatabase = list.get(size);
-                    @Override
-                    public String getId() {
-                        return null;
-                    }
-
-                    @Override
-                    public List<Integer> getPlaceTypes() {
-                        return null;
-                    }
-
-                    @Override
-                    public CharSequence getAddress() {
-                        return null;
-                    }
-
-                    @Override
-                    public Locale getLocale() {
-                        return null;
-                    }
-
-                    @Override
-                    public CharSequence getName() {
-                        return itemFromDatabase.getCityName();
-                    }
-
-                    @Override
-                    public LatLng getLatLng() {
-                        return new LatLng(itemFromDatabase.getLat(), itemFromDatabase.getLon());
-                    }
-
-                    @Override
-                    public LatLngBounds getViewport() {
-                        return null;
-                    }
-
-                    @Override
-                    public Uri getWebsiteUri() {
-                        return null;
-                    }
-
-                    @Override
-                    public CharSequence getPhoneNumber() {
-                        return null;
-                    }
-
-                    @Override
-                    public float getRating() {
-                        return 0;
-                    }
-
-                    @Override
-                    public int getPriceLevel() {
-                        return 0;
-                    }
-
-                    @Override
-                    public CharSequence getAttributions() {
-                        return null;
-                    }
-
-                    @Override
-                    public Place freeze() {
-                        return null;
-                    }
-
-                    @Override
-                    public boolean isDataValid() {
-                        return false;
-                    }
-                },
-                "metric", "en");
+                PlaceBuilder.newBuilder().setName(itemFromDatabase.getCityName())
+                            .setLatLng(new LatLng(itemFromDatabase.getLat(), itemFromDatabase.getLon()) )
+                            .build(),
+                            "metric",
+                            "en");
     }
 
 

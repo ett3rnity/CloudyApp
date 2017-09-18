@@ -21,6 +21,7 @@ import java.util.Locale;
 import alexanderivanets.cloudyapp.R;
 import alexanderivanets.cloudyapp.model.CardItemFromDatabase;
 import alexanderivanets.cloudyapp.model.Config;
+import alexanderivanets.cloudyapp.model.PlaceBuilder;
 import alexanderivanets.cloudyapp.utils.database.DBHandle;
 import alexanderivanets.cloudyapp.utils.database.DBQueries;
 import alexanderivanets.cloudyapp.view.MainActivity;
@@ -60,103 +61,30 @@ public class CardItemLocationAdapter extends RecyclerView.Adapter<CardItemLocati
         }
 
 
-        holder.layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, MainActivity.class);
-                intent.putExtra(Config.ITEM_FROM_LOCATION_ACTIVITY,true);
-                intent.putExtra(Config.ITEM_NUMBER, list.get(holder.getAdapterPosition()).getNumb() );
-                context.startActivity(intent);
+        holder.layout.setOnClickListener(v -> {
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.putExtra(Config.ITEM_FROM_LOCATION_ACTIVITY,true);
+            intent.putExtra(Config.ITEM_NUMBER, list.get(holder.getAdapterPosition()).getNumb() );
+            context.startActivity(intent);
 
-            }
         });
 
-        holder.isFavourite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(list.get(holder.getAdapterPosition()).getFavourite()){
-                    DBQueries.deleteFromDatabase(context, DBHandle.TABLE_NAME_FAVOURITE,
-                            list.get(holder.getAdapterPosition() ).getCityName());
-                    holder.isFavourite.setImageResource(R.drawable.ic_heart_unchecked);
-                    list.get(holder.getAdapterPosition()).setFavourite(false);
-                }
-                else {
-                    CardItemFromDatabase bufItem = list.get(holder.getAdapterPosition() - 1);
-                    DBQueries.addToDatabase(new Place() {
-                        @Override
-                        public String getId() {
-                            return null;
-                        }
-
-                        @Override
-                        public List<Integer> getPlaceTypes() {
-                            return null;
-                        }
-
-                        @Override
-                        public CharSequence getAddress() {
-                            return null;
-                        }
-
-                        @Override
-                        public Locale getLocale() {
-                            return null;
-                        }
-
-                        @Override
-                        public CharSequence getName() {
-                            return bufItem.getCityName();
-                        }
-
-                        @Override
-                        public LatLng getLatLng() {
-                            return new LatLng(bufItem.getLat(),bufItem.getLon());
-                        }
-
-                        @Override
-                        public LatLngBounds getViewport() {
-                            return null;
-                        }
-
-                        @Override
-                        public Uri getWebsiteUri() {
-                            return null;
-                        }
-
-                        @Override
-                        public CharSequence getPhoneNumber() {
-                            return null;
-                        }
-
-                        @Override
-                        public float getRating() {
-                            return 0;
-                        }
-
-                        @Override
-                        public int getPriceLevel() {
-                            return 0;
-                        }
-
-                        @Override
-                        public CharSequence getAttributions() {
-                            return null;
-                        }
-
-                        @Override
-                        public Place freeze() {
-                            return null;
-                        }
-
-                        @Override
-                        public boolean isDataValid() {
-                            return false;
-                        }
-                    },
-                            context,DBHandle.TABLE_NAME_FAVOURITE);
-                    holder.isFavourite.setImageResource(R.drawable.ic_heart_checked);
-                    list.get(holder.getAdapterPosition()).setFavourite(true);
-                }
+        holder.isFavourite.setOnClickListener(v -> {
+            if(list.get(holder.getAdapterPosition()).getFavourite()){
+                DBQueries.deleteFromDatabase(context, DBHandle.TABLE_NAME_FAVOURITE,
+                        list.get(holder.getAdapterPosition() ).getCityName());
+                holder.isFavourite.setImageResource(R.drawable.ic_heart_unchecked);
+                list.get(holder.getAdapterPosition()).setFavourite(false);
+            }
+            else {
+                CardItemFromDatabase bufItem = list.get(holder.getAdapterPosition());
+                DBQueries.addToDatabase(PlaceBuilder.newBuilder().setName(bufItem.getCityName())
+                            .setLatLng( new LatLng(bufItem.getLat(),bufItem.getLon()) )
+                            .build(),
+                            context,
+                            DBHandle.TABLE_NAME_FAVOURITE);
+                holder.isFavourite.setImageResource(R.drawable.ic_heart_checked);
+                list.get(holder.getAdapterPosition()).setFavourite(true);
             }
         });
 
