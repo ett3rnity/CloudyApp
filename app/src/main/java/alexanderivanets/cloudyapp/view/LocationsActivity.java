@@ -5,6 +5,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
+import android.view.View;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -20,12 +22,16 @@ import alexanderivanets.cloudyapp.utils.database.DBHandle;
 import alexanderivanets.cloudyapp.utils.database.DBQueries;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class LocationsActivity extends AppCompatActivity  implements LocationsActivityV{
 
     @BindView(R.id.vp_locations) ViewPager viewPager;
     @BindView(R.id.tl_locations) TabLayout tabLayout;
-    PlaceAutocompleteFragment autocompleteFragment;
+    @BindView(R.id.card_view_locations) CardView cardView;
+    private PlaceAutocompleteFragment autocompleteFragment;
+    private boolean isClicked = false;
+
 
 
 
@@ -50,11 +56,20 @@ public class LocationsActivity extends AppCompatActivity  implements LocationsAc
                 intent.putExtra(DBHandle.LAT_TXT, place.getLatLng().latitude);
                 intent.putExtra(DBHandle.LON_TXT, place.getLatLng().longitude);
                 startActivity(intent);
+                isClicked = false;
             }
 
             @Override
             public void onError(Status status) {
+                isClicked = false;
+            }
+        });
 
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isClicked = !isClicked;
+                cardView.setClickable(!isClicked);
             }
         });
 
