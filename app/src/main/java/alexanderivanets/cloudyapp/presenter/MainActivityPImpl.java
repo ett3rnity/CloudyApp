@@ -37,9 +37,6 @@ public class MainActivityPImpl implements MainActivityP {
     private WeatherAPI api;
 
     private boolean searchByGps;
-    private LocationUtils locationUtils;
-
-
 
 
     public MainActivityPImpl(MainActivityV view) {
@@ -107,7 +104,7 @@ public class MainActivityPImpl implements MainActivityP {
 
     private void runObservable(){
 
-            locationUtils = new LocationUtils(view.onGetContext());
+        LocationUtils locationUtils = new LocationUtils(view.onGetContext());
             //noinspection MissingPermission
             locationUtils.returnRegisteredProvider().getLastLocation()
                     .addOnSuccessListener(new OnSuccessListener<Location>() {

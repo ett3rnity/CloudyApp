@@ -10,7 +10,9 @@ import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
@@ -29,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
@@ -70,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
 
 
     private boolean anotherActivity;
-
+    private boolean isLocationEnabled = true;
 
 
     @BindView(R.id.tv_main_cityName)
@@ -107,15 +110,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window w = getWindow(); // in Activity's onCreate() for instance
-            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            setBarTransparent();
+            isLocationEnabled = locationEnabled(this);
         }
 
         handler = new Handler();
         setUpBroadcastReceiving();
         this.registerReceiver(broadcastReceiver, intentFilter);
+
 
         presenter = new MainActivityPImpl(this);
 
@@ -129,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
             runItemFromDb(-1);
         }
         else {
-            //// FIXME: 14.09.17 android 5.0 - crash, get system service and check for enabled geodata
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
         }
 
@@ -183,7 +185,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
         switch (requestCode) {
             case 1:
                 //gps permission granted
-                if (grantResults.length != 0 && grantResults[0] == PermissionChecker.PERMISSION_GRANTED) {
+                if (grantResults.length != 0 && grantResults[0] == PermissionChecker.PERMISSION_GRANTED
+                        && isLocationEnabled) {
                     //do a gps request
                     //noinspection MissingPermission
                     presenter.onGetInfo(true);
@@ -198,6 +201,28 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
                 break;
         }
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void setBarTransparent(){
+        Window w = getWindow(); // in Activity's onCreate() for instance
+        w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public static boolean locationEnabled(Context context){
+        int locationMode = 0;
+
+        try {
+            locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return locationMode != Settings.Secure.LOCATION_MODE_OFF;
+    }
+
 
 
 
