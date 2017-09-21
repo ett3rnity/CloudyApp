@@ -43,6 +43,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile 'com.airbnb.android:lottie:2.2.0'
     //for reactive listeners based on RxJava-2
     /* Sliding Drawer*/
     /* Blur */
