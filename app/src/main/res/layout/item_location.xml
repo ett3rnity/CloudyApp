@@ -28,13 +28,26 @@
             android:layout_marginLeft="4dp"/>
 
 
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/iv_item_location_isFavourite"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"/>
+
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/iv_item_location_weather"
-            android:layout_toRightOf="@id/iv_item_location_weather">
+            android:layout_toRightOf="@id/iv_item_location_weather"
+            android:layout_toLeftOf="@id/iv_item_location_isFavourite"
+            android:layout_toStartOf="@id/iv_item_location_isFavourite">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -43,7 +56,7 @@
                 android:text="@string/app_name"
                 android:textSize="18sp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp" />
+                android:layout_marginStart="8dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -58,17 +71,6 @@
 
         </LinearLayout>
 
-
-
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:id="@+id/iv_item_location_isFavourite"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp"/>
 
     </RelativeLayout>
 

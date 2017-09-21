@@ -41,6 +41,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -102,6 +104,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
     ProgressBar progressBar;
     @BindView(R.id.card_view_main)
     CardView slider;
+    @BindView(R.id.tv_main_sunrise_txt)
+    TextView sunriseTxt;
+    @BindView(R.id.tv_main_sunset_txt)
+    TextView sunsetTxt;
 
 
     @Override
@@ -258,7 +264,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityV {
         date.setTextColor(Color.parseColor(themeAdapter.getTextColor()));
         sunRise.setTextColor(Color.parseColor(themeAdapter.getTextColor()));
         sunSet.setTextColor(Color.parseColor(themeAdapter.getTextColor()));
-
+        sunriseTxt.setVisibility(View.VISIBLE);
+        sunsetTxt.setVisibility(View.VISIBLE);
 
         setupViewPager(response.getCoord().getLat(), response.getCoord().getLon());
 
